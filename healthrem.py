@@ -1,15 +1,8 @@
 import streamlit as st
-from pymongo import MongoClient
 from datetime import datetime
 from PIL import Image
 import base64
 import io
-from twilio.rest import Client
-
-# MongoDB setup
-myclient = MongoClient("mongodb://localhost:27017")
-mydb = myclient["college_admission"]
-mycol = mydb["applicants"]
 
 def encode_image(image):
     buffered = io.BytesIO()
@@ -49,28 +42,6 @@ def main():
         if image_file is not None:
             image = Image.open(image_file)
             image_base64 = encode_image(image)
-
-        applicant = {
-            "name": name,
-            "father_name": father_name,
-            "mother_name": mother_name,
-            "dob": dob_str,
-            "locality": locality,
-            "address": address,
-            "mobile_no": mobile_no,
-            "email": email,
-            "school_name": school_name,
-            "percentage_10": percentage_10,
-            "year_of_10po": year_of_10po,
-            "percentage_12": percentage_12,
-            "year_of_12po": year_of_12po,
-            "physics_mark": physics_mark,
-            "chemistry_mark": chemistry_mark,
-            "maths_mark": maths_mark,
-            "cutoff": cutoff
-        }
-        mycol.insert_one(applicant)
-
         st.write(f"Cutoff: {cutoff}")
 
         if 120 <= cutoff <= 160:
